@@ -3,9 +3,8 @@ import React from 'react'
 const ContactCard = ({ name, email, phone, address, id }) => {
     return (
         <React.Fragment>
-            <div className='row'>
-                <div className='container ps-4 pe-4 col-12' key={id}>
-                    <div className="card mb-3 mt-5" style={{ maxWidth: "540px" }}>
+                <div className='container ps-4 pe-4 d-flex justify-content-center mt-3' key={id}>
+                    <div className="card mb-3" style={{ maxWidth: "540px" }}>
                         <div className="row g-0">
                             <div className="col-md-4">
                                 <img src="https://placehold.co/500x500" className="img-fluid rounded-start" alt="..." />
@@ -21,7 +20,7 @@ const ContactCard = ({ name, email, phone, address, id }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            
 
         </React.Fragment >
     )

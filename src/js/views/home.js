@@ -26,7 +26,7 @@ export const Home = () => {
 	return (
 		<div className="container">
 			<div className="container mt-5">
-				<div className="navOptions d-flex align-items-center justify-content-center gap-5 ps-4 pe-4">
+				<div className="navOptions d-flex align-items-center justify-content-center gap-5 ps-4 pe-4 mb-5">
 					<h2 className="fs-1 fw-bolder">Contact list</h2>
 					<Link to="/addcontact">
 						<button className="btn btn-success">
@@ -42,7 +42,6 @@ export const Home = () => {
 							email={singleContact.email}
 							address={singleContact.address} 
 							key={singleContact.id}/>
-							
 					))
 				}
 
