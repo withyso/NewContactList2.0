@@ -69,7 +69,6 @@ export const Home = () => {
 							key={singleContact.id} />
 					))
 				}
-
 			</div>
 		</div>
 	)

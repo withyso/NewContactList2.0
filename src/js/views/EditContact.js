@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const EditContact = () => {
-  const params = useParams();
-  const postURL = "https://playground.4geeks.com/contact/agendas/yoelwithy/contacts";
+  /*Here are varialbes and URLS */
+  const putURL = 'https://playground.4geeks.com/contact/agendas/yoelwithy/contacts/';
   const contactURL = "https://playground.4geeks.com/contact/";
   const navigate = useNavigate();
-  const [userData, setUserData] = useState([]);
+  const { someid } = useParams();
 
+  /*useState to display data */
+  const [userData, setUserData] = useState([]);
 
   /* Here I save all the data from inputs */
   const [inputData, setInputData] = useState({
@@ -22,16 +24,20 @@ const EditContact = () => {
   useEffect(() => {
     fetch(contactURL + 'agendas/yoelwithy')
       .then(response => {
-        console.log(response)
         return response.json()
       })
       .then(data => {
-        console.log(data.contacts)
         setUserData(data.contacts)
       })
       .catch((error) => { error })
   }, [])
 
+  /* Need help here */
+  /* 
+  let copyOfContacts = userData;
+  let copiedContact = copyOfContacts.filter(contact => contact.id == someid)
+  let singleContact = copiedContact[0];
+  */
 
   /* This is the function that control all the inputs */
   const handleInputChange = (e) => {
@@ -43,9 +49,9 @@ const EditContact = () => {
   }
 
   /* POST fetch to send all the data */
-  const sendContactData = () => {
-    fetch(postURL, {
-      method: 'POST',
+  const editContactData = () => {
+    fetch(putURL + someid, {
+      method: 'PUT',
       body: JSON.stringify({
         "name": inputData.name,
         "phone": inputData.phone,
@@ -77,14 +83,14 @@ const EditContact = () => {
         <div className='container mt-3'>
           {/*Form with inputs*/}
           <form id='addContactForm' onSubmit={(e) => {
-            sendContactData();
+            editContactData();
             e.preventDefault()
           }}>
             <div className='container bg-light' style={{ maxWidth: "max-content" }}>
               <div className='row inputGroup p-4 pb-2 pt-2 justify-content-center'>
                 <div className='col-md-12 col-sm-12 mt-3'>
                   <label htmlFor="inputFirstName" className="form-label h5"> Full Name </label>
-                  <input type="text" className="form-control mt-1" id="inputFirstName" onChange={handleInputChange} aria-describedby="nameHelp" placeholder={`${userData.name}`} name='name' required />
+                  <input type="text" className="form-control mt-1" id="inputFirstName" onChange={handleInputChange} aria-describedby="nameHelp" placeholder='Mike' name='name' required />
                 </div>
               </div>
               <div className='row inputGroup p-4 pt-2 justify-content-center'>
