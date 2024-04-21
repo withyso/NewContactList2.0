@@ -12,32 +12,37 @@ export const Home = () => {
 		name: 'yoel',
 		phone: '584140684080',
 		email: 'ven.yoel5@gmail.com',
-		address: 'coro,edo falcon'
+		address: 'coro,edo falcon',
+		id: 1
 	},
 	{
 		name: 'victor',
 		phone: '684223123',
 		email: 'test@email.com',
-		address: 'avt 25 killer avenue'
+		address: 'avt 25 killer avenue',
+		id: 2
 	}]
 
 	return (
-		<div className="container mt-5">
-			<div className="container">
-				<div className="navOptions d-flex align-items-center justify-content-center gap-5 ps-4 pe-4 pt-3">
-					<h2 className="fs-1 display-2">Contact list</h2>
+		<div className="container">
+			<div className="container mt-5">
+				<div className="navOptions d-flex align-items-center justify-content-center gap-5 ps-4 pe-4">
+					<h2 className="fs-1 fw-bolder">Contact list</h2>
 					<Link to="/addcontact">
-						<button href="#" className="btn btn-success">
+						<button className="btn btn-success">
 							Add contact
 						</button>
 					</Link>
 				</div>
 				{
 					arrData.map((singleContact) => (
-						<ContactCard name={singleContact.name}
+						<ContactCard 
+							name={singleContact.name}
 							phone={singleContact.phone}
 							email={singleContact.email}
-							address={singleContact.address} />
+							address={singleContact.address} 
+							key={singleContact.id}/>
+							
 					))
 				}
 
