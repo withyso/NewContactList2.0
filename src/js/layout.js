@@ -7,6 +7,8 @@ import { Demo } from "./views/demo";
 import { Single } from "./views/single";
 import AddContact from "./views/AddContact";
 import injectContext from "./store/appContext";
+import CreateAgenda from "./views/CreateAgenda";
+import EditContact from "./views/EditContact";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -22,6 +24,7 @@ const Layout = () => {
 			<BrowserRouter basename={basename}>
 				<ScrollToTop>
 					<Routes>
+						<Route path="/editcontact/:id" element={<EditContact />} />
 						<Route path="/" element={<Home />} />
 						<Route path="/demo" element={<Demo />} />
 						<Route path="/single/:theid" element={<Single />} />

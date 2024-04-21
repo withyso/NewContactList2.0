@@ -1,12 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const AddContact = () => {
-
+const EditContact = () => {
+  const params = useParams();
+  const postURL = "https://playground.4geeks.com/contact/agendas/yoelwithy/contacts";
+  const contactURL = "https://playground.4geeks.com/contact/";
   const navigate = useNavigate();
-  const postURL = "https://playground.4geeks.com/contact/agendas/yoelwithy/contacts"
+  const [userData, setUserData] = useState([]);
+
 
   /* Here I save all the data from inputs */
   const [inputData, setInputData] = useState({
@@ -15,6 +18,20 @@ const AddContact = () => {
     phone: '',
     email: '',
   })
+
+  useEffect(() => {
+    fetch(contactURL + 'agendas/yoelwithy')
+      .then(response => {
+        console.log(response)
+        return response.json()
+      })
+      .then(data => {
+        console.log(data.contacts)
+        setUserData(data.contacts)
+      })
+      .catch((error) => { error })
+  }, [])
+
 
   /* This is the function that control all the inputs */
   const handleInputChange = (e) => {
@@ -55,7 +72,7 @@ const AddContact = () => {
           <Link to="/">
             <button className='btn btn-danger'>  <i className="fa-solid fa-arrow-left"></i> Back </button>
           </Link>
-          <h2 className='fs-1 display-2 text-center fw-bolder'>Add New Contact</h2>
+          <h2 className='fs-1 display-2 text-center fw-bolder'>Edit Contact</h2>
         </div>
         <div className='container mt-3'>
           {/*Form with inputs*/}
@@ -67,7 +84,7 @@ const AddContact = () => {
               <div className='row inputGroup p-4 pb-2 pt-2 justify-content-center'>
                 <div className='col-md-12 col-sm-12 mt-3'>
                   <label htmlFor="inputFirstName" className="form-label h5"> Full Name </label>
-                  <input type="text" className="form-control mt-1" id="inputFirstName" onChange={handleInputChange} aria-describedby="nameHelp" placeholder='Mike Flemming' name='name' required />
+                  <input type="text" className="form-control mt-1" id="inputFirstName" onChange={handleInputChange} aria-describedby="nameHelp" placeholder={`${userData.name}`} name='name' required />
                 </div>
               </div>
               <div className='row inputGroup p-4 pt-2 justify-content-center'>
@@ -88,7 +105,7 @@ const AddContact = () => {
               </div>
               <div className='row inputGroup p-4 pt-3'>
                 <div className='col-md-12 col-sm-12 d-flex justify-content-center gap-2'>
-                  <button type='submit' className='btn btn-success'> <i className="fa-solid fa-check"></i> Send </button>
+                  <button type='submit' className='btn btn-success'> <i className="fa-solid fa-check"></i> Save </button>
                   <button className='btn btn-primary' onClick={(e) => {
                     let form = document.querySelector('#addContactForm')
                     form.reset()
@@ -105,4 +122,4 @@ const AddContact = () => {
   )
 }
 
-export default AddContact
+export default EditContact

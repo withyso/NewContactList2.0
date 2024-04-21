@@ -1,3 +1,17 @@
 /* 
     General Styles
 */
+
+.contact-options{
+    opacity: 50%;
+}
+
+.contact-options:hover{
+    opacity: 100%;
+    color: #5cb85c;
+    cursor: pointer;
+}
+
+#trashOption:hover{
+    color: #d9534f;
+}
