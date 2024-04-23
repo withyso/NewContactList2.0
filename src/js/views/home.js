@@ -13,9 +13,8 @@ export const Home = () => {
 	const getAgenda = () => {
 		fetch(contactURL + 'agendas/yoelwithy')
 			.then(response => {
-				if (response.status == 404) {
-					createAgenda();
-					return response.json
+				if (response.status === 404) {
+					createAgenda()
 				}
 				return response.json()
 			})
@@ -23,7 +22,7 @@ export const Home = () => {
 				setContactData(data.contacts);
 				console.log(contactData)
 			})
-			.catch((error) => { error })
+			.catch((error) => { console.error(error) })
 	}
 
 	const createAgenda = () => {
@@ -33,13 +32,16 @@ export const Home = () => {
 		})
 			.then(response => {
 				console.log(response)
-				if (response.ok) {
-					getAgenda();
+				if (!response.ok) {
+					throw new Error('No se pudo crear la agenda')
 				}
-				else { return response.json() }
+				return response.json()
 			})
-			.then(data => { console.log(data) })
-			.catch((error) => { error })
+			.then(data => {
+				getAgenda()
+				console.log('tu data es:', data)
+			})
+			.catch((error) => { console.log(error) })
 	}
 
 	useEffect(() => {
@@ -66,7 +68,8 @@ export const Home = () => {
 							email={singleContact.email}
 							address={singleContact.address}
 							id={singleContact.id}
-							key={singleContact.id} />
+							key={singleContact.id}
+							funcion={getAgenda} />
 					))
 				}
 			</div>

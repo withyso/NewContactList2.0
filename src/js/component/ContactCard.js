@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom'
 
 
 
-const ContactCard = ({ name, email, phone, address, id, }) => {
+const ContactCard = ({ name, email, phone, address, id, funcion }) => {
     const navigate = useNavigate();
     const putURL = 'https://playground.4geeks.com/contact/agendas/yoelwithy/contacts/'
 
@@ -16,10 +16,13 @@ const ContactCard = ({ name, email, phone, address, id, }) => {
         }).
             then(response => {
                 if (!response.ok) {
+                    console.log(response)
                     throw Error(response.statusText);
+
                 }
                 else {
-                    updateAgenda();
+                    console.log(response)
+                    funcion();
                     return response.json()
                 }
             })
