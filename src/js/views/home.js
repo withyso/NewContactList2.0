@@ -5,8 +5,10 @@ import ContactCard from "../component/ContactCard";
 import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
+	const navigate = useNavigate();
 	const { store, actions } = useContext(Context);
 	const contactURL = "https://playground.4geeks.com/contact/";
 	const [userName, setUserName] = useState('');
@@ -47,10 +49,24 @@ export const Home = () => {
 			.catch((error) => { console.log(error) })
 	}
 
+	const validator = (flag) => {
+		if (flag == true) {
+			navigate('/createagenda')
+		} console.log('agenda cargada')
+
+	}
+
 	useEffect(() => {
 		actions.loadServerData(contactURL)
+		setTimeout(() => {
+			validator(store.agendaFlag)
+		}, 1000)
 	}, [])
 
+
+
+
+	console.log(store.agendaFlag)
 
 	return (
 		<div className="container">
