@@ -1,3 +1,4 @@
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -11,15 +12,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 					title: "SECOND",
 					background: "white",
 					initial: "white"
-				}
-			]
+				},
+
+			],
+			ServerData: [],
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-			loadSomeData: () => {
+			loadServerData: (URL) => {
+				const store = getStore(); //Invoque the store, this way I'll be able to use store variables
+				fetch(URL + 'agendas/yoelwithy')
+					.then(response => {
+						if (response === 404) {
+							console.log(response.status)
+						}
+						return response.json()
+					})
+					.then(data => {
+						setStore({ ServerData: data.contacts })
+						console.log(store.ServerData)
+					}).catch(error => console.log(error))
 				/**
 					fetch().then().then(data => setStore({ "foo": data.bar }))
 				*/

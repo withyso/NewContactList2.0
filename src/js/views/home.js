@@ -3,9 +3,12 @@ import "../../styles/home.css";
 import { Link } from "react-router-dom";
 import ContactCard from "../component/ContactCard";
 import { useState, useEffect } from "react";
+import { useContext } from "react";
+import { Context } from "../store/appContext";
 
 export const Home = () => {
-	const contactURL = "https://playground.4geeks.com/contact/"
+	const { store, actions } = useContext(Context);
+	const contactURL = "https://playground.4geeks.com/contact/";
 	const [userName, setUserName] = useState('');
 	const [contactData, setContactData] = useState([]);
 
@@ -14,9 +17,9 @@ export const Home = () => {
 		fetch(contactURL + 'agendas/yoelwithy')
 			.then(response => {
 				if (response.status === 404) {
-					createAgenda()
+					createAgenda();
 				}
-				return response.json()
+				return response.json();
 			})
 			.then(data => {
 				setContactData(data.contacts);
@@ -45,7 +48,7 @@ export const Home = () => {
 	}
 
 	useEffect(() => {
-		getAgenda();
+		actions.loadServerData(contactURL)
 	}, [])
 
 
@@ -61,7 +64,7 @@ export const Home = () => {
 					</Link>
 				</div>
 				{
-					contactData.map((singleContact) => (
+					store.ServerData.map((singleContact) => (
 						<ContactCard
 							name={singleContact.name}
 							phone={singleContact.phone}
