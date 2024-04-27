@@ -6,56 +6,51 @@ import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
-
 export const Home = () => {
 	const navigate = useNavigate();
 	const { store, actions } = useContext(Context);
 	const [userName, setUserName] = useState('');
 	const [contactData, setContactData] = useState([]);
-	const isAgendaCreated = localStorage.getItem('isAgendaCreated');
-
 	// const getAgenda = () => {
-	// 	fetch(contactURL + 'agendas/yoelwithy')
-	// 		.then(response => {
-	// 			if (response.status === 404) {
-	// 				createAgenda();
-	// 			}
-	// 			return response.json();
-	// 		})
-	// 		.then(data => {
-	// 			setContactData(data.contacts);
-	// 			console.log(contactData)
-	// 		})
-	// 		.catch((error) => { console.error(error) })
+	//  fetch(contactURL + 'agendas/yoelwithy')
+	//      .then(response => {
+	//          if (response.status === 404) {
+	//              createAgenda();
+	//          }
+	//          return response.json();
+	//      })
+	//      .then(data => {
+	//          setContactData(data.contacts);
+	//          console.log(contactData)
+	//      })
+	//      .catch((error) => { console.error(error) })
 	// }
-
 	// const createAgenda = () => {
-	// 	fetch(contactURL + 'agendas/yoelwithy', {
-	// 		method: 'POST',
-	// 		headers: { 'Content-Type': 'application/json' }
-	// 	})
-	// 		.then(response => {
-	// 			console.log(response)
-	// 			if (!response.ok) {
-	// 				throw new Error('No se pudo crear la agenda')
-	// 			}
-	// 			return response.json()
-	// 		})
-	// 		.then(data => {
-	// 			getAgenda()
-	// 			console.log('tu data es:', data)
-	// 		})
-	// 		.catch((error) => { console.log(error) })
+	//  fetch(contactURL + 'agendas/yoelwithy', {
+	//      method: 'POST',
+	//      headers: { 'Content-Type': 'application/json' }
+	//  })
+	//      .then(response => {
+	//          console.log(response)
+	//          if (!response.ok) {
+	//              throw new Error('No se pudo crear la agenda')
+	//          }
+	//          return response.json()
+	//      })
+	//      .then(data => {
+	//          getAgenda()
+	//          console.log('tu data es:', data)
+	//      })
+	//      .catch((error) => { console.log(error) })
 	// }
-	console.log(!isAgendaCreated);
 	useEffect(() => {
-		if (!isAgendaCreated) {
-			navigate('/')
+		const isAgendaCreated = JSON.parse(localStorage.getItem('isAgendaCreated'));
+		if (isAgendaCreated) {
+			// Do nothing
 		} else {
-			console.log('redigir al usuario')
+			navigate("/createagenda");
 		}
 	}, [])
-
 	return (
 		<div className="container">
 			<div className="container mt-5">
@@ -75,8 +70,7 @@ export const Home = () => {
 							email={singleContact.email}
 							address={singleContact.address}
 							id={singleContact.id}
-							key={singleContact.id}
-							funcion={getAgenda} />
+							key={singleContact.id} />
 					))
 				}
 			</div>

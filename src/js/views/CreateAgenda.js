@@ -5,23 +5,20 @@ import { useContext } from 'react'
 import { Context } from '../store/appContext'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-
-
 const CreateAgenda = () => {
     const navigate = useNavigate()
     const [userValue, setUserValue] = useState('')
     const { store, actions } = useContext(Context)
-
     const handleInputValue = () => {
-        let finalValue = userValue;
+        console.log(userValue);
+        // let finalValue = userValue;
         //actions.setUserAgenda(finalValue)
-        localStorage.setItem('userAgenda', finalValue)
-        actions.createAgenda()
-        navigate("/")
+        localStorage.setItem('userAgenda', userValue);
+        actions.createAgenda();
+        setTimeout(() => {
+            navigate("/");
+        }, 3000)
     }
-
-
-
     return (
         <React.Fragment>
             <div className='container mt-5 p-3 pt-2'>
@@ -37,13 +34,11 @@ const CreateAgenda = () => {
                             <label htmlFor="inputFirstName" className="form-label h5 mb-3"> Nombre de Agenda </label>
                             <input type="text" className="form-control mt-1" id="inputFirstName" aria-describedby="nameHelp" placeholder='yoels2024' name='agenda_name' required onChange={(e) => {
                                 setUserValue(e.target.value)
-                                console.log(userValue)
+                                actions.setUserAgenda(e.target.value)
                             }} />
                         </div>
                         <div className='button-group gap-2 mt-3 d-flex justify-content-end'>
-                            <button className='btn btn-success' onClick={() => {
-                                handleInputValue()
-                            }}> Save </button>
+                            <button className='btn btn-success' onClick={handleInputValue}> Save </button>
                             <Link to="/">
                                 <button className='btn btn-danger'> Cancel </button>
                             </Link>
@@ -54,5 +49,4 @@ const CreateAgenda = () => {
         </React.Fragment>
     )
 }
-
 export default CreateAgenda
