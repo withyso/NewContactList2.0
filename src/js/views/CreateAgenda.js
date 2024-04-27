@@ -14,8 +14,13 @@ const CreateAgenda = () => {
 
     const handleInputValue = () => {
         let finalValue = userValue;
-        actions.setUserAgenda(finalValue)
+        //actions.setUserAgenda(finalValue)
+        localStorage.setItem('userAgenda', finalValue)
+        actions.createAgenda()
+        navigate("/")
     }
+
+
 
     return (
         <React.Fragment>
@@ -36,7 +41,9 @@ const CreateAgenda = () => {
                             }} />
                         </div>
                         <div className='button-group gap-2 mt-3 d-flex justify-content-end'>
-                            <button className='btn btn-success' onClick={handleInputValue}> Save </button>
+                            <button className='btn btn-success' onClick={() => {
+                                handleInputValue()
+                            }}> Save </button>
                             <Link to="/">
                                 <button className='btn btn-danger'> Cancel </button>
                             </Link>

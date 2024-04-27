@@ -1,6 +1,8 @@
 
 import { useEffect } from "react";
 
+const URL_BASE = "https://playground.4geeks.com/contact/"
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -18,28 +20,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			],
 			ServerData: [],
-			agendaFlag: null,
-			userAgenda: 'null',
-			url: "https://playground.4geeks.com/contact/",
+			isAgendaCreated: localStorage.getItem('isAgendaCreated'),
+			userAgenda: localStorage.getItem('userAgenda')
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-			loadServerData: (URL) => {
+			loadServerData: () => {
 				const store = getStore(); //Invoke the store, this way I'll be able to use store variables
-				fetch(URL + `agendas/${store.userAgenda}`)
+				fetch(URL_BASE + `agendas/${store.userAgenda}`)
 					.then(response => {
 						if (response.status == 404) {
-							if (store.agendaFlag == null) {
-								setStore({ agendaFlag: true })
-							}
-							if (store.agendaFlag == false) {
-								setStore({ agendaFlag: false })
-							}
+							localStorage.setItem('isAgendaCreated', false)
 							throw new Error('No hay usuario para crear la agenda')
 						}
+						localStorage.setItem('isAgendaCreated', true)
 						return response.json()
 					})
 					.then(data => {
@@ -47,9 +44,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.log(store.ServerData)
 					}).catch(error => console.log(error))
 				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+					fetch().then().then(data => setStore({ "foo": data.bar }))	*/
 			},
+
 			setUserAgenda: (user) => {
 				const store = getStore();
 				setStore({ userAgenda: user })
@@ -60,7 +57,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			createAgenda: () => {
 				const store = getStore();
-				fetch(store.url + `agendas/${store.userAgenda}`, {
+				fetch(`${URL_BASE}agendas/${store.userAgenda}`, {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' }
 				})
@@ -69,10 +66,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 						if (!response.ok) {
 							throw new Error('No se pudo crear la agenda')
 						}
+						localStorage.setItem('isAgendaCreated', true)
 						return response.json()
 					})
 					.then(data => {
-						getActions().loadServerData(store.url)
+						getActions().loadServerData()
 						console.log('tu data es:', data)
 					})
 					.catch((error) => { console.log(error) })

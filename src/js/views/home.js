@@ -10,63 +10,51 @@ import { useNavigate } from "react-router-dom";
 export const Home = () => {
 	const navigate = useNavigate();
 	const { store, actions } = useContext(Context);
-	const contactURL = "https://playground.4geeks.com/contact/";
 	const [userName, setUserName] = useState('');
 	const [contactData, setContactData] = useState([]);
+	const isAgendaCreated = localStorage.getItem('isAgendaCreated');
 
+	// const getAgenda = () => {
+	// 	fetch(contactURL + 'agendas/yoelwithy')
+	// 		.then(response => {
+	// 			if (response.status === 404) {
+	// 				createAgenda();
+	// 			}
+	// 			return response.json();
+	// 		})
+	// 		.then(data => {
+	// 			setContactData(data.contacts);
+	// 			console.log(contactData)
+	// 		})
+	// 		.catch((error) => { console.error(error) })
+	// }
 
-	const getAgenda = () => {
-		fetch(contactURL + 'agendas/yoelwithy')
-			.then(response => {
-				if (response.status === 404) {
-					createAgenda();
-				}
-				return response.json();
-			})
-			.then(data => {
-				setContactData(data.contacts);
-				console.log(contactData)
-			})
-			.catch((error) => { console.error(error) })
-	}
-
-	const createAgenda = () => {
-		fetch(contactURL + 'agendas/yoelwithy', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' }
-		})
-			.then(response => {
-				console.log(response)
-				if (!response.ok) {
-					throw new Error('No se pudo crear la agenda')
-				}
-				return response.json()
-			})
-			.then(data => {
-				getAgenda()
-				console.log('tu data es:', data)
-			})
-			.catch((error) => { console.log(error) })
-	}
-
-	const validator = (flag) => {
-		if (flag == true) {
-			navigate('/createagenda')
-		} console.log('agenda cargada')
-
-	}
-
+	// const createAgenda = () => {
+	// 	fetch(contactURL + 'agendas/yoelwithy', {
+	// 		method: 'POST',
+	// 		headers: { 'Content-Type': 'application/json' }
+	// 	})
+	// 		.then(response => {
+	// 			console.log(response)
+	// 			if (!response.ok) {
+	// 				throw new Error('No se pudo crear la agenda')
+	// 			}
+	// 			return response.json()
+	// 		})
+	// 		.then(data => {
+	// 			getAgenda()
+	// 			console.log('tu data es:', data)
+	// 		})
+	// 		.catch((error) => { console.log(error) })
+	// }
+	console.log(!isAgendaCreated);
 	useEffect(() => {
-		actions.loadServerData(contactURL)
-		setTimeout(() => {
-			validator(store.agendaFlag)
-		}, 1000)
+		if (!isAgendaCreated) {
+			navigate('/')
+		} else {
+			console.log('redigir al usuario')
+		}
 	}, [])
-
-
-
-
-	console.log(store.agendaFlag)
 
 	return (
 		<div className="container">
