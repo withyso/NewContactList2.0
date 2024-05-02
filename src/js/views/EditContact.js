@@ -25,7 +25,7 @@ const EditContact = () => {
   })
 
   useEffect(() => {
-    fetch(contactURL + 'agendas/yoelwithy')
+    fetch(contactURL + `agendas/${store.userAgenda}`)
       .then(response => {
         return response.json()
       })
@@ -69,7 +69,11 @@ const EditContact = () => {
       })
       .then(response => {
         console.log('contacto creado', response)
-        navigate('/')
+        actions.loadServerData();
+        setTimeout(() => {
+          navigate('/')
+        }, 2000);
+
       })
       .catch(error => { error })
   }

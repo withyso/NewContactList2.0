@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { Context } from '../store/appContext'
 
 
 
 const ContactCard = ({ name, email, phone, address, id, funcion }) => {
     const navigate = useNavigate();
-    const putURL = 'https://playground.4geeks.com/contact/agendas/yoelwithy/contacts/'
+    const { store, actions } = useContext(Context)
+    const putURL = `https://playground.4geeks.com/contact/agendas/${store.userAgenda}/contacts/`
 
 
     const deleteContact = () => {
@@ -22,11 +25,11 @@ const ContactCard = ({ name, email, phone, address, id, funcion }) => {
                 }
                 else {
                     console.log(response)
-                    funcion();
                     return response.json()
                 }
             })
             .then(response => {
+                actions.loadServerData();
                 return response
             })
             .catch(error => error)
