@@ -2,11 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { Context } from '../store/appContext'
 
 const AddContact = () => {
+  const { store, actions } = useContext(Context)
 
   const navigate = useNavigate();
-  const postURL = "https://playground.4geeks.com/contact/agendas/yoelwithy/contacts"
+  const postURL = `https://playground.4geeks.com/contact/agendas/${store.userAgenda}/contacts`
 
   /* Here I save all the data from inputs */
   const [inputData, setInputData] = useState({

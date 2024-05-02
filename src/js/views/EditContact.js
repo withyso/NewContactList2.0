@@ -2,10 +2,13 @@ import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { Context } from '../store/appContext'
 
 const EditContact = () => {
   /*Here are varialbes and URLS */
-  const putURL = 'https://playground.4geeks.com/contact/agendas/yoelwithy/contacts/';
+  const { store, actions } = useContext(Context)
+  const putURL = `https://playground.4geeks.com/contact/agendas/${store.userAgenda}/contacts/`;
   const contactURL = "https://playground.4geeks.com/contact/";
   const navigate = useNavigate();
   const { someid } = useParams();
@@ -22,7 +25,7 @@ const EditContact = () => {
   })
 
   useEffect(() => {
-    fetch(contactURL + 'agendas/yoelwithy')
+    fetch(contactURL + `agendas/${store.userAgenda}`)
       .then(response => {
         return response.json()
       })
@@ -66,7 +69,11 @@ const EditContact = () => {
       })
       .then(response => {
         console.log('contacto creado', response)
-        navigate('/')
+        actions.loadServerData();
+        setTimeout(() => {
+          navigate('/')
+        }, 2000);
+
       })
       .catch(error => { error })
   }
